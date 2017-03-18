@@ -28,7 +28,7 @@ void dijkstra(list< pair<int, int> > adjacencyList[], int vertices, int startVer
     distances[startVertex] = 0;
 	priorityQueue.push(make_pair(startVertex, 0));
 
-	for (i = 1; i <= vertices; ++i) {     // Untill there are vertices to be processed
+	while(!priorityQueue.empty()){     // Untill there are vertices to be processed
         pair<int, int> minVertex = priorityQueue.top();   // Greedily process the nearest vertex
         priorityQueue.pop();
 
