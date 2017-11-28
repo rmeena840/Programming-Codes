@@ -1,22 +1,11 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-list< pair<int, int> > adjacencyList;
-
-// Custom comparator for priority queue
-class Compare
-{
-	public:
-	    bool operator() (pair<int, int> a, pair<int, int> b) {
-	    	return b.second < a.second;
-	    }
-};
-
 // Dijkstra's Algorithm function
 void dijkstra(list< pair<int, int> > adjacencyList[], int vertices, int startVertex, int distances[], int parent[])
 {
     int i;
-    priority_queue<pair<int, int>, vector< pair<int, int> >, Compare> priorityQueue;
+    priority_queue<pair<int, int>, vector< pair<int, int> >, greater< pair<int,int> > > priorityQueue;
 
     // Initially no routes to vertices are know, so all are infinity
     for (i = 1; i <= vertices; ++i) {
@@ -71,38 +60,26 @@ void printPath(int parent[], int vertex, int startVertex)
 int main()
 {
     int vertices, edges, i, v1, v2, w, startVertex;
-
     printf("Enter the Number of Vertices -\n");
     scanf("%d", &vertices);
     printf("Enter the Number of Edges -\n");
     scanf("%d", &edges);
-
-    // Adjacency List is an array of lists.
-	// Where each element of list is a pair<int, int>
-	// pair.first -> edge's destination vertex
-	// pair.second -> edge weight
 	list< pair<int, int> > adjacencyList[vertices + 1];
 	int distances[vertices + 1];	// stores shortest distance from start vertex
 	int parent[vertices + 1];		// stores parent vertex in the shortest path
-
-    for (i = 1; i <= edges; ++i) {
+    for (i = 1; i <=  edges; ++i) {
         scanf("%d%d%d", &v1, &v2, &w);
-
-        // Adding edge v1 --> v2, considering a directed graph
         adjacencyList[v1].push_back(make_pair(v2, w));
     }
-
     printf("Enter a start vertex -\n");
     scanf("%d", &startVertex);
     dijkstra(adjacencyList, vertices, startVertex, distances, parent);
     printf("Shortest distances -\n");
-
     for (i = 1; i <= vertices; ++i) {
     	printf("Vertex %d, Distance = %d, Parent = %d, ", i, distances[i], parent[i]);
     	printf("Path = ");
     	printPath(parent, i, startVertex);
     	printf("\n");
 	}
-
     return 0;
 }
