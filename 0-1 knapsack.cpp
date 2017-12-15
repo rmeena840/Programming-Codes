@@ -19,6 +19,9 @@ int knapsack(int val[],int wt[],int n,int W){
 }
 
 int main(void){
+	
+	std::ios::sync_with_stdio(false);
+	
 	int val[3]={60,100,120};
 	int wt[3]={10,20,30};
 	cout<<knapsack(val,wt,3,50);
