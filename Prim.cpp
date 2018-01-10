@@ -1,47 +1,50 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-int prim(list< pair<int,int> > v[],int n,int s){
-	priority_queue< pair<int,int>, vector< pair<int,int> >,greater< pair<int,int> > > Q;
-	
-	vector<int> key(n+1,INT_MAX);
-	vector<int> parent(n+1,-1);
-	vector<bool> MST(n+1,false);
-	
-	Q.push(make_pair(0,s));
-	key[s]=0;
-	
+#define ll long long int
+
+const ll MAX=1e4+5;
+bool vis[MAX]={false};
+typedef pair<ll,ll> PII;
+vector< PII > G[MAX];
+
+ll prim(ll x){
+	priority_queue<PII,vector<PII>,greater<PII> > Q;
+	PII p;
+	Q.push(make_pair(0,x));
+	ll mincost=0;
 	while(!Q.empty()){
-		int k=Q.top().second;
+		p=Q.top();
 		Q.pop();
-		MST[k]=true;
-		
-		list< pair<int,int> >::iterator itr=v[k].begin();
-		while(itr!=v[k].end()){
-			if(MST[(*itr).first]==false && key[(*itr).first]>((*itr).second)){
-				parent[(*itr).first]=k;
-				key[(*itr).first]=(*itr).second;
-				Q.push(make_pair((*itr).second,(*itr).first));
-			}
-			itr++;
+		x=p.second;
+		if(vis[x]==true)
+			continue;
+		mincost+=p.first;
+		vis[x]=true;
+		for(ll i=0;i<G[x].size();i++){
+			ll y=G[x][i].second;
+			if(vis[y]==false)
+				Q.push(G[x][i]);
 		}
 	}
-	int total=0;
-	for(int i=1;i<=n;i++)
-			total+=key[i];
-			
-		return total;
+	return mincost;
 }
 
 int main(void){
-	int n,e;
-	cin>>n>>e;
-	list< pair<int,int> > v[n+1];
-	for(int i=1;i<=e;i++){
-		int a,b,c;
-		cin>>a>>b>>c;
-		v[a].push_back(make_pair(b,c));
-	}
-	cout<<prim(v,n,1);
+	ll t,nodes,edges;
+
+		cin>>nodes>>edges;
+		for(ll i=1;i<=edges;i++){
+			ll x,y,wt=1;
+			cin>>x>>y;
+			G[x].push_back(make_pair(wt,y));
+			G[y].push_back(make_pair(wt,x));
+		}
+		cout<<prim(1)<<endl;
+		for(ll i=0;i<MAX;i++){
+			G[i].clear();
+			vis[i]=false;
+		}
+	
 	return 0;
 }

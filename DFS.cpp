@@ -1,47 +1,43 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-vector< list< int > > v;
-vector<int> visited;
-void dfs(int s){
-	stack<int> stock;
-	stock.push(s);
-	visited[s]=1;
-	while(!stock.empty()){
-		int k=stock.top();
-		stock.pop();
-		cout<<k;
-		list<int>::iterator itr=v[k].begin();
-		while(itr!=v[k].end()){
-			if(visited[(*itr)]==0){
-			stock.push((*itr));
-			visited[(*itr)]=1;
+#define ll long long int
+
+vector<bool> vis;
+
+void dfs(vector<ll> G[],ll n){
+	stack<ll> s;
+	s.push(n);
+	while(!s.empty()){
+		ll v=s.top();
+		s.pop();
+		for(ll i=0;i<G[v].size();i++){
+			if(vis[G[v][i]]==false){
+				vis[G[v][i]]=true;
+				s.push(G[v][i]);
 			}
-			itr++;
 		}
-		
 	}
 }
 
 int main(void){
-	int n,e;
-	cin>>n>>e;
-	v.resize(n+1);
-	visited.resize(n+1);
-	for(int i=1;i<=e;i++){
-		int a,b;
-		cin>>a>>b;
-		v[a].push_back(b);
+	ll n,m;
+	cin>>n>>m;
+	vector<ll> G[n+1];
+	vis.resize(n+1,false);
+	for(ll i=0;i<m;i++){
+		ll x,y;
+		cin>>x>>y;
+		G[x].push_back(y);
+		G[y].push_back(x);
 	}
-	for(int i=1;i<=n;i++){
-		list< int >::iterator itr=v[i].begin();
-		cout<<i<<"::";
-		while(itr!=v[i].end()){
-			cout<<(*itr)<<" ";
-			itr++;
+	ll cm=0;
+	for(ll i=1;i<=n;i++){
+		if(vis[i]==false){
+				dfs(G,i);
+				cm++;
 		}
-		cout<<endl;
 	}
-	dfs(1);	
+	cout<<"Connected Components: "<<cm<<endl;
 	return 0;
 }

@@ -1,37 +1,38 @@
 #include<bits/stdc++.h>
 using namespace std;
+
+#define ll long long int
  
-// A iterative binary search function. It returns location of x in
-// given array arr[l..r] if present, otherwise -1
-int binarySearch(int arr[], int l, int r, int x)
-{
-  while (l <= r)
-  {
-    int m = l + (r-l)/2;
- 
-    // Check if x is present at mid
-    if (arr[m] == x) 
-        return m;  
- 
-    // If x greater, ignore left half  
-    if (arr[m] < x) 
-        l = m + 1; 
- 
-    // If x is smaller, ignore right half 
-    else
-         r = m - 1; 
-  }
- 
-  // if we reach here, then element was not present
-  return -1; 
+ll binary_search(int arr[],int bp,int n){
+    ll low=0,high=n,mid;
+    while(high>=low){
+        mid=(low+high)/2;
+        if(arr[mid]>bp)
+            high=mid-1;
+        else if(arr[mid]<=bp)
+            low=mid+1;
+    }
+    return low;
 }
+ 
+ //recurseive binary search
+ 
+ int binarys(int ar[],int l,int r,int x){
+ 	if(r>=l){
+ 		int mid=l+(r-l)/2;
+ 		if(ar[mid]==x)	return mid;
+ 		if(ar[mid]>x) return binarys(ar,l,mid-1,x);
+ 		return binarys(ar,mid+1,r,x);
+	 }
+	 return -1;
+ }
  
 int main(void)
 {
    int arr[] = {2, 3, 4, 10, 40};
    int n = sizeof(arr)/ sizeof(arr[0]);
-   int x = 10;
-   int result = binarySearch(arr, 0, n-1, x);
+   int x = 50;
+   int result = binary_search(arr,x,n-1);
    (result == -1)? printf("Element is not present in array")
                  : printf("Element is present at index %d", result);
 	if(binary_search(arr,arr+5,3)){
