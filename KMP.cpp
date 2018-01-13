@@ -12,7 +12,7 @@ void computeLPS(string pat,int M,int *lps){
 			i++;
 		}else{
 			if(len!=0){
-				len=lps[len-1];
+				lps[len]=lps[len-1];
 			}else{
 				lps[i]=0;
 				i++;
@@ -47,8 +47,8 @@ void kmp(string txt,string pat){
 
 int main(void){
 	string txt,pat;
-	txt="AAAAABAAABA";
-	pat="AAAA";
+	txt="jadoo loves to play guitar. he can sing songs too.";
+	pat="jadoo";
 	kmp(txt,pat);
 	return 0;
 }
