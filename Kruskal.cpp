@@ -59,7 +59,7 @@ int main()
         cin >> x >> y >> weight;
         p[i] = make_pair(weight, make_pair(x, y));      
     }
-    // Sort the edges in the ascending order
+    // Sort the edges in the ascending order]
     sort(p, p + edges);
     for(int i=0;i<2*edges;i++) cout<<p[i].first<<endl;
     minimumCost = kruskal(p);

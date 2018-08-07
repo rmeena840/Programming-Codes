@@ -2,7 +2,7 @@
 using namespace std;
 
 #define ll long long int
- 
+//this bs is better
 ll binary_search(int arr[],int bp,int n){
     ll low=0,high=n,mid;
     while(high>=low){

@@ -1,48 +1,40 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-vector< list<int> > v;
-vector<int> visited;
+#define ll long long int
+
+vector<int> v[5];
+bool vis[5]={false};
+int level[5]={0};
 
 void bfs(int s){
-	queue<int> stock;
-	stock.push(s);
-	visited[s]=1;
-	while(!stock.empty()){
-		int k=stock.front();
-		cout<<k;
-		stock.pop();
-		list<int>::iterator itr=v[k].begin();
-		while(itr!=v[k].end()){
-			if(visited[(*itr)]==0){
-				visited[(*itr)]=1;
-				stock.push(*itr);
+	queue<int> q;
+	q.push(s);
+	vis[s]=true;
+	while(!q.empty()){
+		int a=q.front();
+		q.pop();
+		for(int i=0;i<v[a].size();i++){
+			if(vis[v[a][i]]==false){
+				level[v[a][i]]=level[a]+1;
+				q.push(v[a][i]);
+				vis[v[a][i]]=true;
 			}
-			itr++;
 		}
 	}
+	
 }
 
 int main(void){
-	int n,e;
-	cin>>n>>e;
-	v.resize(n+1);
-	visited.resize(n+1);
-	for(int i=1;i<=e;i++){
-		int a,b;
-		cin>>a>>b;
-		v[a].push_back(b);
-		v[b].push_back(a);
+	ios_base::sync_with_stdio(false);
+	int x,y;
+	for(int i=0;i<4;i++){
+		cin>>x>>y;
+		v[x].push_back(y);
 	}
-	for(int i=1;i<=n;i++){
-		cout<<i<<"->";
-		list<int>::iterator itr=v[i].begin();
-		while(itr!=v[i].end()){
-			cout<<(*itr)<<"";
-			itr++;
-		}
-		cout<<endl;
+	bfs(0);
+	for(int i=0;i<=4;i++){
+		cout<<level[i]<<endl;
 	}
-	bfs(3);
 	return 0;
 }
