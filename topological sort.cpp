@@ -21,8 +21,6 @@ void topological_sort(ll x){
 
 int main(void){
 	ios_base::sync_with_stdio(false);
-	cin.tie(NULL);
-	cout.tie(NULL);
 	ll n,m,x,y;
 	cin>>n>>m;
 	for(ll i=0;i<m;i++){

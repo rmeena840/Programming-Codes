@@ -1,45 +1,46 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-const int MAX=1e4+5;
-vector< pair<int,int> > G[MAX];
-int dist[MAX];
+const int MAX =1e5+1;
+vector< pair<int,int> > G[MAX]; 
+int dis[MAX];
 
-void dijkstra(int s){
-	priority_queue< pair<int,int>,vector< pair<int,int> >,greater< pair<int,int> > > pq;
-	for(int i=0;i<MAX;i++)
-		dist[i]=INT_MAX;
-	dist[s]=0;
-	pq.push(make_pair(s,0));
-	
-	while(!pq.empty()){
-		pair<int,int> minvertex=pq.top();
-		int u=minvertex.first;
-		pq.pop();
-		for(int i=0;i<G[u].size();i++){
-			int v=G[u][i].first;
-			int w=G[u][i].second;
-			if(dist[u]!=INT_MAX && dist[v]>dist[u]+w){
-				dist[v]=dist[u]+w;
-				pq.push(make_pair(v,dist[v]));
+void initialize(){
+	for(int i=0;i<MAX;i++){
+		dis[i]=INT_MAX;
+	}
+}
+
+void dijisktra(int s){
+	priority_queue< pair<int,int>, vector< pair<int,int> >, greater< pair<int,int> > > Q;
+	dis[s]=0;
+	Q.push({0,s});
+	while(!Q.empty()){
+		pair<int,int> p=Q.top();
+		Q.pop();
+		int x=p.second;
+		for(int i=0;i<G[x].size();i++){
+			if(dis[x]!=INT_MAX && dis[G[x][i].second]>dis[x]+G[x][i].first){
+				dis[G[x][i].second]=dis[x]+G[x][i].first;
+				Q.push(G[x][i]);
 			}
 		}
 	}
-	
 }
 
 int main(void){
-	int n,m;
-	cin>>n>>m;
-	for(int i=0;i<m;i++){
+	int n,e;
+	cin>>n>>e;
+	initialize();
+	for(int i=0;i<e;i++){
 		int x,y,w;
 		cin>>x>>y>>w;
-		G[x].push_back(make_pair(y,w));
-		G[y].push_back(make_pair(x,w));
+		G[x].push_back({w,y});
+		G[y].push_back({w,x});
 	}
-	dijkstra(1);
-	for(int i=0;i<n;i++){
-		cout<<dist[i]<<endl;
+	dijisktra(1);
+	for(int i=1;i<=n;i++){
+		cout<<dis[i]<<endl;
 	}
 	return 0;
 }
